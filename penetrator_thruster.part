@@ -1,0 +1,13 @@
+{
+    "configuration": "default",
+    "documentId": "8a39f00045ca3f760abed2bb",
+    "documentMicroversion": "1e2aaffc39031b27dc9cd05c",
+    "elementId": "339650199565df7f9097ddb6",
+    "fullConfiguration": "default",
+    "id": "MECiOWzbbs22j6dWG",
+    "isStandardContent": false,
+    "name": "penetrator_thruster <1>",
+    "partId": "JFD",
+    "suppressed": false,
+    "type": "Part"
+}
