@@ -1,0 +1,1361 @@
+<?xml version="1.0"?>
+<robot name="trixy" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<link name="casco">
+<visual>
+<origin xyz="0 0 0" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/casco.stl"/>
+</geometry>
+<material name="casco_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/casco.stl"/>
+</geometry>
+<material name="casco_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="0.0274366 6.89961e-06 -0.053626" rpy="0 0 0"/>
+<mass value="1.36255" />
+<inertia ixx="0.00486446" ixy="3.48941e-06"  ixz="0.000214152" iyy="0.0164359" iyz="-8.49228e-07" izz="0.0173907" />
+</inertial>
+</link>
+
+<link name="thruster_base">
+<visual>
+<origin xyz="7.38165e-18 0.00424822 -0.049" rpy="4.93038e-32 7.31806e-32 -6.78879e-80" />
+<geometry>
+<mesh filename="package://trixy/urdf/thruster_base.stl"/>
+</geometry>
+<material name="thruster_base_material">
+<color rgba="0.792157 0.819608 0.933333 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="7.38165e-18 0.00424822 -0.049" rpy="4.93038e-32 7.31806e-32 -6.78879e-80" />
+<geometry>
+<mesh filename="package://trixy/urdf/thruster_base.stl"/>
+</geometry>
+<material name="thruster_base_material">
+<color rgba="0.792157 0.819608 0.933333 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-9.26481e-07 0.000196263 -0.0484144" rpy="0 0 0"/>
+<mass value="183.458" />
+<inertia ixx="0.16158" ixy="-1.24113e-06"  ixz="-1.15742e-06" iyy="0.178593" iyz="-0.000679623" izz="0.157026" />
+</inertial>
+</link>
+
+<link name="thruster_helice">
+<visual>
+<origin xyz="-7.08857e-17 -5.55112e-16 -0.009842" rpy="-1.5708 5.84663e-16 -1.75162e-46" />
+<geometry>
+<mesh filename="package://trixy/urdf/thruster_helice.stl"/>
+</geometry>
+<material name="thruster_helice_material">
+<color rgba="0.792157 0.819608 0.933333 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-7.08857e-17 -5.55112e-16 -0.009842" rpy="-1.5708 5.84663e-16 -1.75162e-46" />
+<geometry>
+<mesh filename="package://trixy/urdf/thruster_helice.stl"/>
+</geometry>
+<material name="thruster_helice_material">
+<color rgba="0.792157 0.819608 0.933333 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.43442e-08 2.23714e-06 -0.00230846" rpy="0 0 0"/>
+<mass value="0.00921082" />
+<inertia ixx="2.62673e-06" ixy="-3.02105e-10"  ixz="3.38867e-11" iyy="2.62649e-06" iyz="-4.77514e-11" izz="3.82582e-06" />
+</inertial>
+</link>
+
+<joint name="helice_thruster" type="continuous">
+<origin xyz="8.8784e-18 -0.0057414 -0.049" rpy="1.5708 7.31806e-32 9.86076e-32" />
+<parent link="thruster_base" />
+<child link="thruster_helice" />
+<axis xyz="0 0 1"/>
+<limit effort="10000" velocity="1000"/>
+<joint_properties damping ="0.0" friction="0.0"/>
+</joint>
+
+<joint name="casco_thruster" type="fixed">
+<origin xyz="-0.00420826 -2.44379e-10 -0.12" rpy="7.66335e-47 1.31372e-46 -1.5708" />
+<parent link="casco" />
+<child link="thruster_base" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="sonar_ping360">
+<visual>
+<origin xyz="0 0.00135122 -0.0401341" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/sonar_ping360.stl"/>
+</geometry>
+<material name="sonar_ping360_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0.00135122 -0.0401341" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/sonar_ping360.stl"/>
+</geometry>
+<material name="sonar_ping360_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-8.51618e-09 0.000336838 -0.0424682" rpy="0 0 0"/>
+<mass value="325.854" />
+<inertia ixx="0.286317" ixy="-7.7018e-08"  ixz="-7.21529e-08" iyy="0.282082" iyz="-0.00323426" izz="0.208301" />
+</inertial>
+</link>
+
+<joint name="sonar" type="fixed">
+<origin xyz="0.15282 0 -0.075" rpy="1.5708 -0 -1.5708" />
+<parent link="casco" />
+<child link="sonar_ping360" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="penetrator_sonar">
+<visual>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/penetrator_sonar.stl"/>
+</geometry>
+<material name="penetrator_sonar_material">
+<color rgba="1 0 0 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/penetrator_sonar.stl"/>
+</geometry>
+<material name="penetrator_sonar_material">
+<color rgba="1 0 0 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-3.41256e-07 1.23041e-06 0.00207195" rpy="0 0 0"/>
+<mass value="0.00763249" />
+<inertia ixx="9.47319e-07" ixy="-4.99877e-12"  ixz="1.26332e-10" iyy="9.66562e-07" iyz="1.54418e-10" izz="2.68146e-07" />
+</inertial>
+</link>
+
+<joint name="pntr_sonar" type="fixed">
+<origin xyz="0.12382 0 -0.0226" rpy="-3.14159 1.5708 0" />
+<parent link="casco" />
+<child link="penetrator_sonar" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="nut_thruster">
+<visual>
+<origin xyz="8.753e-05 -0.000210673 -0.016" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/nut_thruster.stl"/>
+</geometry>
+<material name="nut_thruster_material">
+<color rgba="0 0 0 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="8.753e-05 -0.000210673 -0.016" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/nut_thruster.stl"/>
+</geometry>
+<material name="nut_thruster_material">
+<color rgba="0 0 0 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="9.21926e-05 -0.000211283 -0.00800001" rpy="0 0 0"/>
+<mass value="0.00744372" />
+<inertia ixx="3.21983e-07" ixy="3.23981e-12"  ixz="-2.14877e-11" iyy="3.47049e-07" iyz="-1.63031e-10" izz="3.58177e-07" />
+</inertial>
+</link>
+
+<joint name="nut_thruster" type="fixed">
+<origin xyz="-0.033384 -8.13152e-19 -0.083" rpy="0 -0 0" />
+<parent link="casco" />
+<child link="nut_thruster" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="penetrator_thruster">
+<visual>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/penetrator_thruster.stl"/>
+</geometry>
+<material name="penetrator_thruster_material">
+<color rgba="0.25098 0.25098 0.25098 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/penetrator_thruster.stl"/>
+</geometry>
+<material name="penetrator_thruster_material">
+<color rgba="0.25098 0.25098 0.25098 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.1339e-06 3.32096e-07 -0.000844262" rpy="0 0 0"/>
+<mass value="0.00667911" />
+<inertia ixx="9.39755e-07" ixy="5.76856e-12"  ixz="7.58764e-11" iyy="9.67415e-07" iyz="1.67125e-10" izz="2.93346e-07" />
+</inertial>
+</link>
+
+<joint name="pntr_th" type="fixed">
+<origin xyz="-0.033384 0 -0.08" rpy="3.14159 -0 0" />
+<parent link="casco" />
+<child link="penetrator_thruster" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="nut_sonar">
+<visual>
+<origin xyz="-0.000226036 -2.95444e-05 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/nut_sonar.stl"/>
+</geometry>
+<material name="nut_sonar_material">
+<color rgba="1 0 0 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.000226036 -2.95444e-05 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/nut_sonar.stl"/>
+</geometry>
+<material name="nut_sonar_material">
+<color rgba="1 0 0 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.000220262 -3.69763e-05 -0.00399998" rpy="0 0 0"/>
+<mass value="0.00367746" />
+<inertia ixx="1.00976e-07" ixy="-4.38025e-15"  ixz="5.75411e-11" iyy="1.12562e-07" iyz="4.46138e-11" izz="1.75803e-07" />
+</inertial>
+</link>
+
+<joint name="nut_sonar" type="fixed">
+<origin xyz="0.119455 -2.15824e-18 -0.0226" rpy="-3.14159 -1.5708 0" />
+<parent link="casco" />
+<child link="nut_sonar" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="eixo_flap_base">
+<visual>
+<origin xyz="0 0 0.0525" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0.0525" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.97931e-20 0.000216681 0.0512926" rpy="0 0 0"/>
+<mass value="0.0524351" />
+<inertia ixx="9.96193e-05" ixy="0"  ixz="0" iyy="9.9509e-05" iyz="6.11175e-07" izz="5.84093e-07" />
+</inertial>
+</link>
+
+<joint name="b_eixo_flap_l" type="fixed">
+<origin xyz="-0.0627976 -0.0590786 -0.0364809" rpy="1.5708 -0 0" />
+<parent link="casco" />
+<child link="eixo_flap_base" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="eixo_flap">
+<visual>
+<origin xyz="0 0 -0.0245" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.0245" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-4.61583e-10 2.86529e-06 -0.0237059" rpy="0 0 0"/>
+<mass value="0.0104144" />
+<inertia ixx="2.92663e-05" ixy="3.198e-14"  ixz="2.12095e-13" iyy="2.92663e-05" iyz="-2.63433e-09" izz="1.16968e-08" />
+</inertial>
+</link>
+
+<link name="flap">
+<visual>
+<origin xyz="0 0 -0.1005" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/flap.stl"/>
+</geometry>
+<material name="flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.1005" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/flap.stl"/>
+</geometry>
+<material name="flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.0185575 1.76413e-07 -0.0655618" rpy="0 0 0"/>
+<mass value="0.0620715" />
+<inertia ixx="7.85311e-05" ixy="1.41447e-10"  ixz="4.11493e-06" iyy="9.76631e-05" iyz="-6.03888e-11" izz="2.12594e-05" />
+</inertial>
+</link>
+
+<link name="pç_flap">
+<visual>
+<origin xyz="0.0212557 -0.000679749 -0.003" rpy="0 -8.75812e-47 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_flap.stl"/>
+</geometry>
+<material name="pç_flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0212557 -0.000679749 -0.003" rpy="0 -8.75812e-47 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_flap.stl"/>
+</geometry>
+<material name="pç_flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="0.0167347 -0.000679749 -0.0015" rpy="0 0 0"/>
+<mass value="0.000621423" />
+<inertia ixx="4.85566e-09" ixy="0"  ixz="2.35806e-54" iyy="2.78564e-08" iyz="0" izz="3.17799e-08" />
+</inertial>
+</link>
+
+<joint name="pç_flap_l" type="fixed">
+<origin xyz="-0.0212557 0.000679749 0.0045" rpy="0 -4.93038e-31 0" />
+<parent link="flap" />
+<child link="pç_flap" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="ex_flp_l" type="fixed">
+<origin xyz="0 0 -0.1155" rpy="3.14159 -0 3.14159" />
+<parent link="eixo_flap" />
+<child link="flap" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="gaxeta">
+<visual>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.39888e-11 -4.38898e-05 -0.00300727" rpy="0 0 0"/>
+<mass value="0.00144054" />
+<inertia ixx="9.39445e-09" ixy="1.49997e-15"  ixz="-3.17149e-16" iyy="1.0572e-08" iyz="6.64662e-11" izz="1.03195e-08" />
+</inertial>
+</link>
+
+<link name="borracha_eixo">
+<visual>
+<origin xyz="0 0 0" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo.stl"/>
+</geometry>
+<material name="borracha_eixo_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo.stl"/>
+</geometry>
+<material name="borracha_eixo_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.2211e-19 -3.65887e-19 -0.001" rpy="0 0 0"/>
+<mass value="8.94176e-05" />
+<inertia ixx="4.55937e-10" ixy="0"  ixz="0" iyy="4.55937e-10" iyz="0" izz="8.52261e-10" />
+</inertial>
+</link>
+
+<joint name="bch_l" type="fixed">
+<origin xyz="0 0 0" rpy="3.14159 -0 0" />
+<parent link="gaxeta" />
+<child link="borracha_eixo" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="gaxeta_l" type="fixed">
+<origin xyz="0 0 0.0506" rpy="3.14159 -0 0" />
+<parent link="eixo_flap" />
+<child link="gaxeta" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="flap_l" type="revolute">
+<origin xyz="-0.0627976 -0.0852 -0.0364809" rpy="-1.5708 -0 0" />
+<parent link="casco" />
+<child link="eixo_flap" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" lower="0" upper="1.5708"/>
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="eixo_flap_base_2">
+<visual>
+<origin xyz="0 0 0.0525" rpy="-1.5708 1.51929e-63 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0.0525" rpy="-1.5708 1.51929e-63 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.97931e-20 0.000216681 0.0512926" rpy="0 0 0"/>
+<mass value="0.0524351" />
+<inertia ixx="9.96193e-05" ixy="3.02534e-67"  ixz="9.28552e-70" iyy="9.9509e-05" iyz="6.11175e-07" izz="5.84093e-07" />
+</inertial>
+</link>
+
+<joint name="b_eixo_flap_r" type="fixed">
+<origin xyz="-0.0627976 0.0590786 -0.0364809" rpy="1.5708 3.08149e-32 -3.14159" />
+<parent link="casco" />
+<child link="eixo_flap_base_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="eixo_flap_2">
+<visual>
+<origin xyz="0 0 -0.0245" rpy="1.5708 5.94329e-47 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.0245" rpy="1.5708 5.94329e-47 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-4.61583e-10 2.86529e-06 -0.0237059" rpy="0 0 0"/>
+<mass value="0.0104144" />
+<inertia ixx="2.92663e-05" ixy="3.198e-14"  ixz="2.12095e-13" iyy="2.92663e-05" iyz="-2.63433e-09" izz="1.16968e-08" />
+</inertial>
+</link>
+
+<link name="gaxeta_2">
+<visual>
+<origin xyz="0 -6.93889e-18 0" rpy="3.14159 -1.75162e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -6.93889e-18 0" rpy="3.14159 -1.75162e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.39888e-11 -4.38898e-05 -0.00300727" rpy="0 0 0"/>
+<mass value="0.00144054" />
+<inertia ixx="9.39445e-09" ixy="1.49997e-15"  ixz="-3.17149e-16" iyy="1.0572e-08" iyz="6.64662e-11" izz="1.03195e-08" />
+</inertial>
+</link>
+
+<link name="borracha_eixo_2">
+<visual>
+<origin xyz="0 -6.93889e-18 -0.002" rpy="-1.5708 -1.75162e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo.stl"/>
+</geometry>
+<material name="borracha_eixo_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -6.93889e-18 -0.002" rpy="-1.5708 -1.75162e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo.stl"/>
+</geometry>
+<material name="borracha_eixo_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.2211e-19 -6.57301e-18 -0.001" rpy="0 0 0"/>
+<mass value="8.94176e-05" />
+<inertia ixx="4.55937e-10" ixy="1.99657e-56"  ixz="0" iyy="4.55937e-10" iyz="0" izz="8.52261e-10" />
+</inertial>
+</link>
+
+<joint name="bch_r" type="fixed">
+<origin xyz="0 -6.93889e-18 -6.93889e-18" rpy="3.14159 1.75162e-46 3.14159" />
+<parent link="gaxeta_2" />
+<child link="borracha_eixo_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="gaxeta_r" type="fixed">
+<origin xyz="0 6.93889e-18 0.0506" rpy="3.14159 2.74252e-31 2.77556e-16" />
+<parent link="eixo_flap_2" />
+<child link="gaxeta_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="flap_2">
+<visual>
+<origin xyz="0 0 -0.1005" rpy="-1.5708 2.18953e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/flap.stl"/>
+</geometry>
+<material name="flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.1005" rpy="-1.5708 2.18953e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/flap.stl"/>
+</geometry>
+<material name="flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.0185575 1.76413e-07 -0.0655618" rpy="0 0 0"/>
+<mass value="0.0620715" />
+<inertia ixx="7.85311e-05" ixy="1.41447e-10"  ixz="4.11493e-06" iyy="9.76631e-05" iyz="-6.03888e-11" izz="2.12594e-05" />
+</inertial>
+</link>
+
+<link name="pç_flap_2">
+<visual>
+<origin xyz="0 0 0" rpy="3.14159 1.31372e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_flap.stl"/>
+</geometry>
+<material name="pç_flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="3.14159 1.31372e-46 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_flap.stl"/>
+</geometry>
+<material name="pç_flap_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.004521 -7.53609e-21 -0.0015" rpy="0 0 0"/>
+<mass value="0.000621423" />
+<inertia ixx="4.85566e-09" ixy="0"  ixz="4.60025e-54" iyy="2.78564e-08" iyz="0" izz="3.17799e-08" />
+</inertial>
+</link>
+
+<joint name="pç_flap_r" type="fixed">
+<origin xyz="0 0 0.0045" rpy="-9.86076e-32 3.38964e-32 0" />
+<parent link="flap_2" />
+<child link="pç_flap_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="ex_flp_r" type="fixed">
+<origin xyz="0 1.38778e-17 -0.1155" rpy="3.14159 9.30609e-31 2.22045e-16" />
+<parent link="eixo_flap_2" />
+<child link="flap_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="flap_r" type="revolute">
+<origin xyz="-0.0627976 0.0852 -0.0364809" rpy="-1.5708 3.33067e-16 3.14159" />
+<parent link="casco" />
+<child link="eixo_flap_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" lower="-1.5708" upper="0"/>
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="eixo_flap_base_3">
+<visual>
+<origin xyz="0 0 0.0525" rpy="-1.5708 -7.67046e-93 1.53287e-107" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0.0525" rpy="-1.5708 -7.67046e-93 1.53287e-107" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap_base.stl"/>
+</geometry>
+<material name="eixo_flap_base_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.97931e-20 0.000216681 0.0512926" rpy="0 0 0"/>
+<mass value="0.0524351" />
+<inertia ixx="9.96193e-05" ixy="-7.6328e-97"  ixz="-4.68799e-99" iyy="9.9509e-05" iyz="6.11175e-07" izz="5.84093e-07" />
+</inertial>
+</link>
+
+<joint name="b_eixo_rud" type="fixed">
+<origin xyz="0.0801351 2.75546e-19 -0.072059" rpy="3.14159 2.59085e-77 -1.5708" />
+<parent link="casco" />
+<child link="eixo_flap_base_3" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="rudder">
+<visual>
+<origin xyz="0 -2.75546e-19 0" rpy="3.50325e-46 -8.75812e-47 -4.93038e-32" />
+<geometry>
+<mesh filename="package://trixy/urdf/rudder.stl"/>
+</geometry>
+<material name="rudder_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -2.75546e-19 0" rpy="3.50325e-46 -8.75812e-47 -4.93038e-32" />
+<geometry>
+<mesh filename="package://trixy/urdf/rudder.stl"/>
+</geometry>
+<material name="rudder_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.0223934 -1.52044e-07 -0.0429768" rpy="0 0 0"/>
+<mass value="0.055288" />
+<inertia ixx="4.87291e-05" ixy="1.12153e-10"  ixz="3.03988e-06" iyy="7.21687e-05" iyz="-1.2272e-11" izz="2.53851e-05" />
+</inertial>
+</link>
+
+<link name="eixo_flap_3">
+<visual>
+<origin xyz="0 -9.18485e-20 -0.091" rpy="-1.5708 -0 4.93038e-32" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -9.18485e-20 -0.091" rpy="-1.5708 -0 4.93038e-32" />
+<geometry>
+<mesh filename="package://trixy/urdf/eixo_flap.stl"/>
+</geometry>
+<material name="eixo_flap_material">
+<color rgba="0.647059 0.647059 0.647059 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-4.61583e-10 -2.86529e-06 -0.0917941" rpy="0 0 0"/>
+<mass value="0.0104144" />
+<inertia ixx="2.92663e-05" ixy="-3.198e-14"  ixz="-2.12095e-13" iyy="2.92663e-05" iyz="-2.63433e-09" izz="1.16968e-08" />
+</inertial>
+</link>
+
+<link name="gaxeta_3">
+<visual>
+<origin xyz="0 2.14313e-19 0" rpy="3.14159 -8.75812e-47 6.08638e-59" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 2.14313e-19 0" rpy="3.14159 -8.75812e-47 6.08638e-59" />
+<geometry>
+<mesh filename="package://trixy/urdf/gaxeta.stl"/>
+</geometry>
+<material name="gaxeta_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.39888e-11 -4.38898e-05 -0.00300727" rpy="0 0 0"/>
+<mass value="0.00144054" />
+<inertia ixx="9.39445e-09" ixy="1.49997e-15"  ixz="-3.17149e-16" iyy="1.0572e-08" iyz="6.64662e-11" izz="1.03195e-08" />
+</inertial>
+</link>
+
+<link name="borracha_eixo2">
+<visual>
+<origin xyz="0 2.72921e-19 0" rpy="1.5708 -0 -7.69233e-45" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo2.stl"/>
+</geometry>
+<material name="borracha_eixo2_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 2.72921e-19 0" rpy="1.5708 -0 -7.69233e-45" />
+<geometry>
+<mesh filename="package://trixy/urdf/borracha_eixo2.stl"/>
+</geometry>
+<material name="borracha_eixo2_material">
+<color rgba="0.917647 0.917647 0.917647 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="1.56726e-19 -8.68735e-20 -0.00055" rpy="0 0 0"/>
+<mass value="5.10898e-05" />
+<inertia ixx="2.42208e-10" ixy="-1.27765e-99"  ixz="9.57137e-41" iyy="2.42208e-10" iyz="-1.66094e-55" izz="4.74114e-10" />
+</inertial>
+</link>
+
+<joint name="bch_gax_rud" type="fixed">
+<origin xyz="0 -2.15704e-31 0" rpy="-3.14159 -4.34962e-15 3.14159" />
+<parent link="gaxeta_3" />
+<child link="borracha_eixo2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="gax_eix_rud" type="fixed">
+<origin xyz="0 -1.97215e-31 -0.1661" rpy="-6.22752e-16 9.24446e-32 -3.14159" />
+<parent link="eixo_flap_3" />
+<child link="gaxeta_3" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="ex_rudder" type="fixed">
+<origin xyz="0 -4.99044e-19 -0.0945" rpy="-3.14159 6.16298e-33 -9.86076e-32" />
+<parent link="rudder" />
+<child link="eixo_flap_3" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="pç_rudder">
+<visual>
+<origin xyz="0 -6.16298e-33 0" rpy="3.14159 -0 2.97842e-60" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_rudder.stl"/>
+</geometry>
+<material name="pç_rudder_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -6.16298e-33 0" rpy="3.14159 -0 2.97842e-60" />
+<geometry>
+<mesh filename="package://trixy/urdf/pç_rudder.stl"/>
+</geometry>
+<material name="pç_rudder_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.004521 1.03344e-20 -0.0015" rpy="0 0 0"/>
+<mass value="0.000621423" />
+<inertia ixx="4.85566e-09" ixy="-9.74301e-68"  ixz="0" iyy="2.78564e-08" iyz="0" izz="3.17799e-08" />
+</inertial>
+</link>
+
+<joint name="pç_rudder" type="fixed">
+<origin xyz="1.38778e-17 2.75546e-19 -0.1" rpy="3.14159 3.5129e-31 1.52656e-16" />
+<parent link="rudder" />
+<child link="pç_rudder" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="rudder" type="revolute">
+<origin xyz="0.0801351 2.75546e-19 -0.12" rpy="-1.97215e-30 6.90253e-31 -3.14159" />
+<parent link="casco" />
+<child link="rudder" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" lower="-1.5708" upper="1.5708"/>
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="tampa_casco">
+<visual>
+<origin xyz="-0.18516 -2.38777e-18 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/tampa_casco.stl"/>
+</geometry>
+<material name="tampa_casco_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.18516 -2.38777e-18 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/tampa_casco.stl"/>
+</geometry>
+<material name="tampa_casco_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-0.188838 -0.000208789 -0.0224736" rpy="0 0 0"/>
+<mass value="0.885526" />
+<inertia ixx="0.00215907" ixy="3.35604e-06"  ixz="-9.28542e-05" iyy="0.0105401" iyz="-3.97594e-06" izz="0.0122909" />
+</inertial>
+</link>
+
+<link name="antena">
+<visual>
+<origin xyz="0 2.46156e-19 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/antena.stl"/>
+</geometry>
+<material name="antena_material">
+<color rgba="0 0 0 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 2.46156e-19 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/antena.stl"/>
+</geometry>
+<material name="antena_material">
+<color rgba="0 0 0 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-3.93769e-19 1.23953e-20 -0.0300765" rpy="0 0 0"/>
+<mass value="0.00319034" />
+<inertia ixx="9.92956e-07" ixy="0"  ixz="0" iyy="9.92956e-07" iyz="0" izz="2.52452e-08" />
+</inertial>
+</link>
+
+<joint name="antena" type="fixed">
+<origin xyz="-0.325369 -2.14162e-18 -0.045" rpy="0 -0 3.14159" />
+<parent link="tampa_casco" />
+<child link="antena" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="tampa_bateria">
+<visual>
+<origin xyz="0.0395 -0.167 -0.03" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/tampa_bateria.stl"/>
+</geometry>
+<material name="tampa_bateria_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0.0395 -0.167 -0.03" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/tampa_bateria.stl"/>
+</geometry>
+<material name="tampa_bateria_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="0.0395 -0.082 -0.0402991" rpy="0 0 0"/>
+<mass value="0.132729" />
+<inertia ixx="0.000524468" ixy="0"  ixz="0" iyy="0.000191931" iyz="0" izz="0.000586683" />
+</inertial>
+</link>
+
+<link name="bateria">
+<visual>
+<origin xyz="0 0 0" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/bateria.stl"/>
+</geometry>
+<material name="bateria_material">
+<color rgba="0.301961 0.301961 0.301961 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 0" rpy="1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/bateria.stl"/>
+</geometry>
+<material name="bateria_material">
+<color rgba="0.301961 0.301961 0.301961 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-7.30907e-19 0 -0.0705" rpy="0 0 0"/>
+<mass value="0.332639" />
+<inertia ixx="0.000668042" ixy="0"  ixz="0" iyy="0.000668042" iyz="0" izz="0.000233887" />
+</inertial>
+</link>
+
+<joint name="bat_tamp" type="fixed">
+<origin xyz="0.0395 -0.149 -0.03" rpy="1.5708 -0 -1.66533e-16" />
+<parent link="tampa_bateria" />
+<child link="bateria" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="sup_tampa_bat" type="fixed">
+<origin xyz="-0.10246 0.0403 -0.048" rpy="0 -0 -1.5708" />
+<parent link="tampa_casco" />
+<child link="tampa_bateria" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="suporte_dome">
+<visual>
+<origin xyz="0 1.50019e-18 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/suporte_dome.stl"/>
+</geometry>
+<material name="suporte_dome_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 1.50019e-18 0" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/suporte_dome.stl"/>
+</geometry>
+<material name="suporte_dome_material">
+<color rgba="0.32549 0.529412 0.752941 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="5.04911e-18 -6.5955e-19 -0.0125" rpy="0 0 0"/>
+<mass value="0.00776665" />
+<inertia ixx="2.55296e-06" ixy="0"  ixz="0" iyy="2.55296e-06" iyz="0" izz="4.2969e-06" />
+</inertial>
+</link>
+
+<link name="dome">
+<visual>
+<origin xyz="0 1.53081e-18 0.005" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/dome.stl"/>
+</geometry>
+<material name="dome_material">
+<color rgba="0.603922 0.647059 0.686275 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 1.53081e-18 0.005" rpy="3.14159 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/dome.stl"/>
+</geometry>
+<material name="dome_material">
+<color rgba="0.603922 0.647059 0.686275 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.88613e-18 5.77779e-34 -0.0225028" rpy="0 0 0"/>
+<mass value="0.0109214" />
+<inertia ixx="4.46048e-06" ixy="0"  ixz="0" iyy="4.46048e-06" iyz="-3.24078e-69" izz="5.46494e-06" />
+</inertial>
+</link>
+
+<joint name="dome_sup" type="fixed">
+<origin xyz="2.77556e-17 -3.06162e-20 -0.025" rpy="0 -0 0" />
+<parent link="suporte_dome" />
+<child link="dome" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="sup_dome" type="fixed">
+<origin xyz="-0.0656504 -8.8758e-19 -0.048" rpy="0 -0 3.14159" />
+<parent link="tampa_casco" />
+<child link="suporte_dome" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="suporte_camera">
+<visual>
+<origin xyz="6.89019e-19 -0.0171313 0.0439004" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/suporte_camera.stl"/>
+</geometry>
+<material name="suporte_camera_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="6.89019e-19 -0.0171313 0.0439004" rpy="0 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/suporte_camera.stl"/>
+</geometry>
+<material name="suporte_camera_material">
+<color rgba="0.615686 0.811765 0.929412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-1.59817e-18 -0.0179306 0.0217742" rpy="0 0 0"/>
+<mass value="0.00737151" />
+<inertia ixx="3.56176e-06" ixy="0"  ixz="0" iyy="3.9037e-06" iyz="5.07583e-07" izz="9.65657e-07" />
+</inertial>
+</link>
+
+<link name="camera">
+<visual>
+<origin xyz="-0.002 0.03 0" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/camera.stl"/>
+</geometry>
+<material name="camera_material">
+<color rgba="0.298039 0.298039 0.298039 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="-0.002 0.03 0" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/camera.stl"/>
+</geometry>
+<material name="camera_material">
+<color rgba="0.298039 0.298039 0.298039 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="0.0137222 0.0134373 -0.00761908" rpy="0 0 0"/>
+<mass value="0.00653772" />
+<inertia ixx="6.10069e-07" ixy="1.75998e-08"  ixz="-1.77093e-08" iyy="5.78876e-07" iyz="4.24461e-08" izz="5.07669e-07" />
+</inertial>
+</link>
+
+<link name="parafuso">
+<visual>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.8125e-20 1.98869e-19 0.000559979" rpy="0 0 0"/>
+<mass value="0.000573713" />
+<inertia ixx="5.1022e-09" ixy="0"  ixz="0" iyy="5.1022e-09" iyz="0" izz="1.46513e-09" />
+</inertial>
+</link>
+
+<joint name="paraf1" type="fixed">
+<origin xyz="0.028 0 -0.0016" rpy="0 -0 0" />
+<parent link="camera" />
+<child link="parafuso" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="parafuso_2">
+<visual>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.8125e-20 1.98869e-19 0.000559979" rpy="0 0 0"/>
+<mass value="0.000573713" />
+<inertia ixx="5.1022e-09" ixy="0"  ixz="0" iyy="5.1022e-09" iyz="0" izz="1.46513e-09" />
+</inertial>
+</link>
+
+<joint name="paraf2" type="fixed">
+<origin xyz="0.028 0.028 -0.0016" rpy="0 -0 0" />
+<parent link="camera" />
+<child link="parafuso_2" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="parafuso_3">
+<visual>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.8125e-20 1.98869e-19 0.000559979" rpy="0 0 0"/>
+<mass value="0.000573713" />
+<inertia ixx="5.1022e-09" ixy="0"  ixz="0" iyy="5.1022e-09" iyz="0" izz="1.46513e-09" />
+</inertial>
+</link>
+
+<joint name="paraf3" type="fixed">
+<origin xyz="1.73472e-18 0 -0.0016" rpy="0 -2.46519e-32 0" />
+<parent link="camera" />
+<child link="parafuso_3" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="parafuso_4">
+<visual>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 0 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.8125e-20 1.98869e-19 0.000559979" rpy="0 0 0"/>
+<mass value="0.000573713" />
+<inertia ixx="5.1022e-09" ixy="0"  ixz="0" iyy="5.1022e-09" iyz="0" izz="1.46513e-09" />
+</inertial>
+</link>
+
+<joint name="paraf4" type="fixed">
+<origin xyz="1.73472e-18 0.028 -0.0016" rpy="0 -0 0" />
+<parent link="camera" />
+<child link="parafuso_4" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="camera" type="fixed">
+<origin xyz="0.014 -0.0241313 0.0314559" rpy="1.5708 -0 -3.14159" />
+<parent link="suporte_camera" />
+<child link="camera" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<link name="parafuso_5">
+<visual>
+<origin xyz="0 -1.53081e-19 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</visual>
+<collision>
+<origin xyz="0 -1.53081e-19 -0.003" rpy="-1.5708 -0 0" />
+<geometry>
+<mesh filename="package://trixy/urdf/parafuso.stl"/>
+</geometry>
+<material name="parafuso_material">
+<color rgba="0.6 0.580392 0.529412 1.0"/>
+</material>
+</collision>
+<inertial>
+<origin xyz="-2.8125e-20 4.57883e-20 0.000559979" rpy="0 0 0"/>
+<mass value="0.000573713" />
+<inertia ixx="5.1022e-09" ixy="0"  ixz="0" iyy="5.1022e-09" iyz="0" izz="1.46513e-09" />
+</inertial>
+</link>
+
+<joint name="paraf" type="fixed">
+<origin xyz="5.35938e-19 0 -0.007" rpy="0 -0 1.5708" />
+<parent link="suporte_camera" />
+<child link="parafuso_5" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="camera_sup" type="fixed">
+<origin xyz="-0.0953051 -1.69875e-18 -0.045" rpy="3.14159 -0 -1.5708" />
+<parent link="tampa_casco" />
+<child link="suporte_camera" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+<joint name="tampa_casco" type="fixed">
+<origin xyz="-0.185162 2.38777e-18 0" rpy="3.14159 -0 3.14159" />
+<parent link="casco" />
+<child link="tampa_casco" />
+<axis xyz="0 0 1"/>
+<limit effort="1" velocity="20" />
+<joint_properties friction="0.0"/>
+</joint>
+
+
+</robot>
